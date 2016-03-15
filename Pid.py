@@ -1,6 +1,7 @@
 import serial 
 import pyautogui
 import time
+pyautogui.FAILSAFE=False
 
 
 class PID(object):
@@ -54,17 +55,11 @@ class PID(object):
 
 	def getDerivator(self):
 		return self.Derivator
-controller=PID()
-controller.setPoint((500,500))
-print str(pyautogui.position()) + "reference"
-while True:
-	current_pos=pyautogui.position()
-	control=controller.update(current_pos)
-	a=str(control[0])
-	b=str(control[1])
-	print control
+
+
+def Pycom():
 	ser=serial.Serial()
-	ser.baudrate=9600
+  	ser.baudrate=9600
 	ser.port='/dev/ttyACM0'
 	ser.open()
 	ser.write(a)
@@ -72,7 +67,23 @@ while True:
 	ser.write(b)
 	ser.write(' ')
 	ser.close()
-	time.sleep(1)
+	return
+
+controller=PID()
+while True:
+                                                                                                                                    	
+	controller.setPoint((500,500))
+	#if(self.error[0]>-1 && self.error[0]<1 && self.error[1]<1 && self.error[1]>-1):
+		#NewPoint=IPcode()
+		#controller.setPoint(NewPoint)	
+	current_pos=pyautogui.position()
+	control=controller.update(current_pos)
+	a=str(control[0])
+	b=str(control[1])
+	print control
+   	Pycom()
+	pyautogui.moveTo((500,500))
+	time.sleep(0.1)
 	
 	
 	
